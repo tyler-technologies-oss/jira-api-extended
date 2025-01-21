@@ -21,7 +21,8 @@ interface IReleaseOptions {
     description: string;
     name: string;
     projectId: number;
-    releaseDate: string;
+    releaseDate?: string | undefined
+    startDate?: string | undefined
     released: boolean;
 }
 

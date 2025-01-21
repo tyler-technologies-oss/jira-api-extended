@@ -8,18 +8,16 @@ export default class Issues {
         return this.httpservice.get(url);
     }
 
-    public async field(issue: string, field: string): Promise<IObject> {
+    public async field(issue: string, field: string): Promise<IObject | Boolean> {
         const url = new URL(`${this.config.url}/rest/api/latest/issue/${issue}`);
 
         url.searchParams.append('fields', field);
 
         /* eslint-disable  @typescript-eslint/no-explicit-any */
         const data = await this.httpservice.get(url) as any;
-        try {
-            return data.fields[field];
-        } catch (error) {
-            return { error: `Unable to locate field: ${field} with error: ${error}` };
-        }
+        if (!data?.fields) return false;
+        if (!data?.fields.hasOwnProperty(field)) return false;
+        return data?.fields[field] || false;
     }
 
     public reviewers(issue: string): Promise<IObject> {

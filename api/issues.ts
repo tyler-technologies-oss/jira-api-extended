@@ -84,14 +84,6 @@ export default class Issues {
         return this.field(issue, 'status');
     }
 
-    public sprint(issue: string): Promise<IObject> {
-        return this.field(issue, 'customfield_11962');
-    }
-
-    public points(issue: string): Promise<IObject> {
-        return this.field(issue, 'customfield_11432');
-    }
-
     public reporter(issue: string): Promise<IObject> {
         return this.field(issue, 'reporter');
     }

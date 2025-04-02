@@ -28,21 +28,21 @@ export default class Releases {
     return this.httpservice.get(url);
   }
 
-  public get(versionId: string): Promise<IObject> {
+  public get(versionId: number): Promise<IObject> {
     const url = new URL(
       `${this.config.url}/rest/api/latest/version/${versionId}`
     );
     return this.httpservice.get(url);
   }
 
-  public delete(versionId: string): Promise<IObject> {
+  public delete(versionId: number): Promise<IObject> {
     const url = new URL(
       `${this.config.url}/rest/api/latest/version/${versionId}`
     );
     return this.httpservice.delete(url);
   }
 
-  public async release(versionId: string): Promise<IObject> {
+  public async release(versionId: number): Promise<IObject> {
     const _release = await this.get(versionId);
 
     if (_release.isReleased) {
@@ -62,7 +62,7 @@ export default class Releases {
     }, _release.id);
   }
 
-  public async unrelease(versionId: string): Promise<IObject> {
+  public async unrelease(versionId: number): Promise<IObject> {
     const _release = await this.get(versionId);
 
     if (!_release.isReleased) {

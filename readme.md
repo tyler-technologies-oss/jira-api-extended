@@ -66,6 +66,11 @@ Then, run the tests:
 bun test
 ```
 
+You may need to optionally provide a timeout for the tests:
+```bash
+bun test --timeout 10000
+```
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request.

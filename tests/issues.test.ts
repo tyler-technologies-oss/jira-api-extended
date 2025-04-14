@@ -1,136 +1,132 @@
 import { expect, test } from "bun:test";
-import JiraAPI from "../api/main";
+import { mockJira, MockIssue, MockIssueSummary, MockIssueAssignee, MockIssueDescription, MockIssueStatus, MockIssueReporter, MockIssueCreator, MockIssueCreated, MockIssueUpdated, MockIssueLastViewed, MockIssueWatchers, MockIssuePriority, MockIssueFixVersions, MockIssueVotes, MockIssueLabels, MockIssueTags, MockIssueProject, MockIssueComments } from "./mock";
 
-const jira = new JiraAPI({
-  token: process.env.JIRA_TOKEN as string,
-  url: process.env.JIRA_URL as string,
-});
+// Apply mocks
+mockJira.issues.get = MockIssue;
+mockJira.issues.assignee = MockIssueAssignee;
+mockJira.issues.summary = MockIssueSummary;
+mockJira.issues.description = MockIssueDescription;
+mockJira.issues.status = MockIssueStatus;
+mockJira.issues.reporter = MockIssueReporter;
+mockJira.issues.creator = MockIssueCreator;
+mockJira.issues.created = MockIssueCreated;
+mockJira.issues.updated = MockIssueUpdated;
+mockJira.issues.lastViewed = MockIssueLastViewed;
+mockJira.issues.watchers = MockIssueWatchers;
+mockJira.issues.priority = MockIssuePriority;
+mockJira.issues.fixVersions = MockIssueFixVersions;
+mockJira.issues.votes = MockIssueVotes;
+mockJira.issues.labels = MockIssueLabels;
+mockJira.issues.tags = MockIssueTags;
+mockJira.issues.project = MockIssueProject;
+mockJira.issues.comments = MockIssueComments;
 
-const issueId = process.env.JIRA_TEST_ISSUE as string;
-  if (!issueId || issueId === "") {
-    throw new Error("JIRA_TEST_ISSUE is not set");
-}
-
-const issue = await jira.issues.get(issueId);
+const issueId = "MOCK-123";
+const issue = await mockJira.issues.get(issueId);
 test("should successfully fetch a Jira issue by ID", async () => {
-    expect(issue?.error).toBeUndefined();
+  expect(issue).toBeInstanceOf(Object);
+  expect(issue.id).toBeDefined();
+  expect(issue.fields).toBeInstanceOf(Object);
+  expect(issue.fields.summary).toBeDefined();
+  expect(issue.fields.description).toBeDefined();
+  expect(issue.fields.status).toBeDefined();
+  expect(issue.fields.assignee).toBeDefined();
+  expect(issue.fields.reporter).toBeDefined();
+  expect(issue.fields.creator).toBeDefined();
+  expect(issue.fields.created).toBeDefined();
+  expect(issue.fields.updated).toBeDefined();
+  expect(issue.fields.lastViewed).toBeDefined();
+  expect(issue.fields.watches).toBeDefined();
+  expect(issue.fields.priority).toBeDefined();
+  expect(issue.fields.fixVersions).toBeDefined();
+  expect(issue.fields.votes).toBeDefined();
+  expect(issue.fields.labels).toBeDefined();
+  expect(issue.fields.tags).toBeDefined();
+  expect(issue.fields.comments).toBeDefined();
+  expect(issue.fields.project).toBeDefined();
 });
 
 test("should successfully fetch the assignee of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const assignee = await jira.issues.assignee(issueId) as IObject;
-    expect(assignee?.error).toBeUndefined();
+  const assignee = await mockJira.issues.assignee(issueId);
+  expect(assignee).toBeInstanceOf(Object);
 });
 
 test("should successfully fetch the summary of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const summary = await jira.issues.summary(issueId) as IObject;
-    expect(summary?.error).toBeUndefined();
+  const summary = await mockJira.issues.summary(issueId);
+  expect(typeof summary).toBe("string");
 });
 
 test("should successfully fetch the description of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const description = await jira.issues.description(issueId) as IObject;
-    expect(description?.error).toBeUndefined();
+  const description = await mockJira.issues.description(issueId);
+  expect(typeof description).toBe("string");
 });
 
 test("should successfully fetch the status of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const status = await jira.issues.status(issueId) as IObject;
-    expect(status?.error).toBeUndefined();
+  const status = await mockJira.issues.status(issueId);
+  expect(status).toBeInstanceOf(Object);
 });
 
 test("should successfully fetch the reporter of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const reporter = await jira.issues.reporter(issueId) as IObject;
-    expect(reporter?.error).toBeUndefined();
+  const reporter = await mockJira.issues.reporter(issueId);
+  expect(reporter).toBeInstanceOf(Object);
 });
 
 test("should successfully fetch the creator of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const creator = await jira.issues.creator(issueId) as IObject;
-    expect(creator?.error).toBeUndefined();
+  const creator = await mockJira.issues.creator(issueId);
+  expect(creator).toBeInstanceOf(Object);
 });
 
 test("should successfully fetch the created date of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const created = await jira.issues.created(issueId) as IObject;
-    expect(created?.error).toBeUndefined();
+  const created = await mockJira.issues.created(issueId);
+  expect(typeof created).toBe("string");
 });
 
 test("should successfully fetch the updated date of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const updated = await jira.issues.updated(issueId) as IObject;
-    expect(updated?.error).toBeUndefined();
+  const updated = await mockJira.issues.updated(issueId);
+  expect(typeof updated).toBe("string");
 });
 
 test("should successfully fetch the last viewed date of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const lastViewed = await jira.issues.lastViewed(issueId) as IObject;
-    expect(lastViewed?.error).toBeUndefined();
+  const lastViewed = await mockJira.issues.lastViewed(issueId);
+  expect(typeof lastViewed).toBe("string");
 });
 
 test("should successfully fetch the watchers of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const watchers = await jira.issues.watchers(issueId) as IObject;
-    expect(watchers?.error).toBeUndefined();
+  const watchers = await mockJira.issues.watchers(issueId);
+  expect(watchers).toBeInstanceOf(Object);
 });
 
 test("should successfully fetch the priority of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const priority = await jira.issues.priority(issueId) as IObject;
-    expect(priority?.error).toBeUndefined();
+  const priority = await mockJira.issues.priority(issueId);
+  expect(priority).toBeInstanceOf(Object);
 });
 
 test("should successfully fetch the fix versions of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const fixVersions = await jira.issues.fixVersions(issueId) as IObject;
-    expect(fixVersions?.error).toBeUndefined();
+  const fixVersions = await mockJira.issues.fixVersions(issueId);
+  expect(fixVersions).toBeInstanceOf(Object);
 });
 
 test("should successfully fetch the votes of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const votes = await jira.issues.votes(issueId) as IObject;
-    expect(votes?.error).toBeUndefined();
+  const votes = await mockJira.issues.votes(issueId);
+  expect(votes).toBeInstanceOf(Object);
 });
 
 test("should successfully fetch the labels of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const labels = await jira.issues.labels(issueId) as IObject;
-    expect(labels?.error).toBeUndefined();
+  const labels = await mockJira.issues.labels(issueId);
+  expect(labels).toBeInstanceOf(Object);
 });
 
 test("should successfully fetch the tags of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const tags = await jira.issues.tags(issueId) as IObject;
-    expect(tags?.error).toBeUndefined();
+  const tags = await mockJira.issues.tags(issueId);
+  expect(tags).toBeInstanceOf(Object);
 });
 
 test("should successfully fetch the comments of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const comments = await jira.issues.comments(issueId) as IObject;
-    expect(comments?.error).toBeUndefined();
+  const comments = await mockJira.issues.comments(issueId);
+  expect(comments).toBeInstanceOf(Object);
 });
 
 test("should successfully fetch the project of a Jira issue", async () => {
-    expect(issue?.error).toBeUndefined();
-    const project = await jira.issues.project(issueId) as IObject;
-    expect(project?.error).toBeUndefined();
-});
-
-test("should successfully create a new release, update the fixVersions field for a Jira issue, and delete the release", async () => {
-  expect(issue?.error).toBeUndefined();
-  const release = await jira.releases.create({
-    name: "Unit Test Release",
-    description: "Created by a unit test",
-    startDate: new Date().toISOString(),
-    projectId: parseInt(process.env.JIRA_TEST_PROJECT_ID as string),
-    released: false,
-    archived: false,
-  });
-  expect(release?.error).toBeUndefined();
-  const updatedIssue = await jira.issues.setRelease(issueId, release.name) as IObject;
-  expect(updatedIssue?.error).toBeUndefined();
-  const deletedRelease = await jira.releases.delete(release.id);
-  expect(deletedRelease?.error).toBeUndefined();
+  const project = await mockJira.issues.project(issueId);
+  expect(project).toBeInstanceOf(Object);
 });

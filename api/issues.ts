@@ -72,12 +72,12 @@ export default class Issues {
         return this.field(issue, 'assignee');
     }
 
-    public summary(issue: string): Promise<IObject | boolean> {
-        return this.field(issue, 'summary');
+    public summary(issue: string): Promise<string | boolean> {
+        return this.field(issue, 'summary') as Promise<string | boolean>;
     }
 
-    public description(issue: string): Promise<IObject | boolean> {
-        return this.field(issue, 'description');
+    public description(issue: string): Promise<string | boolean> {
+        return this.field(issue, 'description') as Promise<string | boolean>;
     }
 
     public status(issue: string): Promise<IObject | boolean> {
@@ -92,16 +92,16 @@ export default class Issues {
         return this.field(issue, 'creator');
     }
 
-    public created(issue: string): Promise<IObject | boolean> {
-        return this.field(issue, 'created');
+    public created(issue: string): Promise<string | boolean> {
+        return this.field(issue, 'created') as Promise<string | boolean>;
     }
 
-    public updated(issue: string): Promise<IObject | boolean> {
-        return this.field(issue, 'updated');
+    public updated(issue: string): Promise<string | boolean> {
+        return this.field(issue, 'updated') as Promise<string | boolean>;
     }
 
-    public lastViewed(issue: string): Promise<IObject | boolean> {
-        return this.field(issue, 'lastViewed');
+    public lastViewed(issue: string): Promise<string | boolean> {
+        return this.field(issue, 'lastViewed') as Promise<string | boolean>;
     }
 
     public watchers(issue: string): Promise<IObject | boolean> {

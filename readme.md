@@ -52,23 +52,10 @@ console.log(issues);
 
 ## Testing
 
-To run the tests, you need to set the following environment variables:
+Running unit tests:
 
-```bash
-JIRA_URL=https://your-jira-instance.atlassian.net
-JIRA_TOKEN=your-api-token
-JIRA_TEST_PROJECT_ID=your-project-id
-JIRA_TEST_ISSUE=your-issue-id
-```
-
-Then, run the tests:
 ```bash
 bun test
-```
-
-You may need to optionally provide a timeout for the tests:
-```bash
-bun test --timeout 10000
 ```
 
 ## Contributing

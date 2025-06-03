@@ -358,10 +358,13 @@ export const MockCommentAdd = mock(async (_issueId: string, body: string) => {
 export const MockCommentUpdate = mock(
   async (_issueId: string, commentId: number, body: string) => {
     const issue = await MockIssue();
+
     issue.fields.comments.comments.find(
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
       (comment: any) => comment.id === commentId
     ).body = body;
     return issue.fields.comments.comments.find(
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
       (comment: any) => comment.id === commentId
     );
   } 
@@ -371,9 +374,11 @@ export const MockCommentRemove = mock(
   async (_issueId: string, commentId: number) => {
     const issue = await MockIssue();
     issue.fields.comments.comments = issue.fields.comments.comments.filter(
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
       (comment: any) => comment.id !== commentId
     );
     return issue.fields.comments.comments.find(
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
       (comment: any) => comment.id === commentId
     );
   }
@@ -407,6 +412,7 @@ export const MockReleaseUpdate = mock(async (options: IReleaseOptions, version: 
 export const MockReleaseDelete = mock(
   async (id: number) => {
     const mockRelease = await MockRelease();
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     mockRelease.splice(mockRelease.findIndex((release: any) => release.id === id), 1);
     return mockRelease;
   }

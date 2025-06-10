@@ -82,11 +82,11 @@ export default class Releases {
 
   // Merge a release into another
   public async merge(
-    sourceVersionId: number,
-    targetVersionId: number
+    versionId: number,
+    mergeIntoId: number
   ): Promise<IObject> {
-    const sourceRelease = await this.get(sourceVersionId);
-    const targetRelease = await this.get(targetVersionId);
+    const sourceRelease = await this.get(versionId);
+    const targetRelease = await this.get(mergeIntoId);
 
     if (sourceRelease.projectId !== targetRelease.projectId) {
       throw new Error("Source and target releases must belong to the same project");
@@ -100,14 +100,7 @@ export default class Releases {
       throw new Error("Target release is already released");
     }
 
-    return this.update({
-      archived: targetRelease.archived,
-      description: targetRelease.description,
-      name: `${targetRelease.name} + ${sourceRelease.name}`,
-      projectId: targetRelease.projectId,
-      releaseDate: targetRelease.releaseDate,
-      startDate: targetRelease.startDate,
-      released: false
-    }, targetRelease.id);
+    const url = new URL(`${this.config.url}/rest/api/latest/version/${versionId}/mergeto/${mergeIntoId}`);
+    return this.httpservice.put(url, {});
   }
 }

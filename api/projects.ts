@@ -8,4 +8,10 @@ export default class Projects {
 
         return this.httpservice.get(url);
     }
+    
+    public get(projectKey: string): Promise<IObject> {
+        const url = new URL(`${this.config.url}/rest/api/latest/project/${projectKey}`);
+
+        return this.httpservice.get(url);
+    }
 }

@@ -1,7 +1,7 @@
 interface IJiraAPI {
     token: string;
     url: string;
-    username?: string;
+    email?: string;
 }
 
 interface IRepository {

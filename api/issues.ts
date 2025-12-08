@@ -2,10 +2,26 @@ import HTTP from "./http";
 
 export default class Issues {
     constructor(private httpservice: HTTP, public config: IJiraAPI) {}
-  
+
     public get(issue: string): Promise<IObject> {
         const url = new URL(`${this.config.url}/rest/api/latest/issue/${issue}`);
         return this.httpservice.get(url);
+    }
+
+    public async list(releaseId: number): Promise<IObject> {
+        // Get all issues for a specific release
+        const url = new URL(`${this.config.url}/rest/api/latest/search`);
+        url.searchParams.append('jql', `fixVersion=${releaseId}`);
+        // return only the issue keys as an array of strings
+        url.searchParams.append('fields', 'key');
+        url.searchParams.append('maxResults', '1000'); // Adjust as needed
+        const result = this.httpservice.get(url);
+        return result.then((data: IObject) => {
+            if (data?.issues && Array.isArray(data.issues)) {
+                return data.issues.map((issue: IObject) => issue.key);
+            }
+            return [];
+        });
     }
 
     public async field(issue: string, field: string): Promise<IObject | boolean> {

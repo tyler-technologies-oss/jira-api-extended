@@ -1,23 +1,20 @@
 export default class HTTP {
     private headers: Headers;
-  
+
     public constructor(public config: IJiraAPI) {
-      if (config.username){
-        const encoder = new TextEncoder();
-        this.headers = new Headers({
-          Authorization: `Basic ${btoa(String.fromCharCode(...encoder.encode(`${config.username}:${config.token}`)))}`,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        });
-      } else {
-        this.headers = new Headers({
-          Authorization: `Bearer ${this.config.token}`,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        });
-      }
+      // Both Cloud and Server use Basic auth when email is provided
+      // Server can also use Bearer token for personal access tokens
+      const authHeader = this.config.email
+        ? "Basic " + Buffer.from(`${this.config.email}:${this.config.token}`).toString("base64")
+        : "Bearer " + this.config.token;
+
+      this.headers = new Headers({
+        Authorization: authHeader,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      });
     }
-  
+
     private async request(
       url: URL,
       method: string,

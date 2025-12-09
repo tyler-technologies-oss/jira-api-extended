@@ -40,8 +40,9 @@ export default class Issues {
         return this.field(issue, 'customfield_18716');
     }
 
-    public updateField(issue: string, field: string, value: IObject): Promise<IObject | boolean> {
-        const url = new URL(`${this.config.url}/rest/api/latest/issue/${issue}`);
+    public updateField(issue: string, field: string, value: any[]): Promise<IObject | boolean> {
+        const url = new URL(`${this.config.url}/rest/api/3/issue/${issue}`);
+
         return this.httpservice.put(url, {
             fields: {
                 [field]: value
@@ -154,6 +155,11 @@ export default class Issues {
 
     public getRelease(releaseId: number): Promise<IObject | boolean> {
         const url = new URL(`${this.config.url}/rest/api/latest/version/${releaseId}`);
+        return this.httpservice.get(url);
+    }
+
+    public getFields(): Promise<IObject> {
+        const url = new URL(`${this.config.url}/rest/api/3/field`);
         return this.httpservice.get(url);
     }
 }

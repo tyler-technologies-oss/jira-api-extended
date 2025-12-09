@@ -27,7 +27,7 @@ export default class HTTP {
       });
       const data = await result.json();
       if (!result.ok) {
-        return { error: `An error occurred with your request: ${result.status}` };
+        return { error: `An error occurred with your request: ${result.status}`, details: data };
       }
       return data;
     }

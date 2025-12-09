@@ -37,7 +37,7 @@ export default class Issues {
     }
 
     public reviewers(issue: string): Promise<IObject | boolean> {
-        return this.field(issue, 'customfield_38271');
+        return this.field(issue, 'customfield_18716');
     }
 
     public updateField(issue: string, field: string, value: IObject): Promise<IObject | boolean> {

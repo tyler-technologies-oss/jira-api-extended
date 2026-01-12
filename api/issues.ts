@@ -71,16 +71,12 @@ export default class Issues {
     public setReleases(issue: string, versions: string[]): Promise<IObject | boolean> {
         const url = new URL(`${this.config.url}/rest/api/latest/issue/${issue}`);
         return this.httpservice.put(url, {
-            update: {
-                fixVersions: [
-                    {
-                        set: versions.map((version) => {
-                            return {
-                                name: version
-                            };
-                        })
-                    }
-                ]
+            fields: {
+                fixVersions: versions.map((version) => {
+                    return {
+                        name: version
+                    };
+                })
             }
         });
     }

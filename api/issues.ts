@@ -40,7 +40,7 @@ export default class Issues {
         return this.field(issue, 'customfield_18716');
     }
 
-    public updateField(issue: string, field: string, value: any[]): Promise<IObject | boolean> {
+    public updateField(issue: string, field: string, value: IObject): Promise<IObject | boolean> {
         const url = new URL(`${this.config.url}/rest/api/3/issue/${issue}`);
 
         return this.httpservice.put(url, {
@@ -97,6 +97,10 @@ export default class Issues {
 
     public status(issue: string): Promise<IObject | boolean> {
         return this.field(issue, 'status');
+    }
+
+    public parent(issue: string): Promise<IObject | boolean> {
+        return this.field(issue, 'parent');
     }
 
     public reporter(issue: string): Promise<IObject | boolean> {
@@ -159,5 +163,31 @@ export default class Issues {
     public getFields(): Promise<IObject> {
         const url = new URL(`${this.config.url}/rest/api/3/field`);
         return this.httpservice.get(url);
+    }
+
+    public create(issueData: IObject): Promise<IObject> {
+        const url = new URL(`${this.config.url}/rest/api/3/issue`);
+        return this.httpservice.post(url, issueData);
+    }
+
+    public addAttachment(issue: string, attachmentData: File | Blob, filename?: string): Promise<IObject> {
+        const url = new URL(`${this.config.url}/rest/api/3/issue/${issue}/attachments`);
+        const formData = new FormData();
+
+        if (attachmentData instanceof File) {
+            if (filename) {
+                formData.append('file', attachmentData, filename);
+            } else {
+                formData.append('file', attachmentData);
+            }
+        } else {
+            const blobFilename = filename || 'file';
+            formData.append('file', new File([attachmentData], blobFilename));
+        }
+
+        const headers = {
+            "X-Atlassian-Token": "no-check"
+        }
+        return this.httpservice.post(url, formData, headers);
     }
 }

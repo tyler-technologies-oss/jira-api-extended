@@ -190,4 +190,13 @@ export default class Issues {
         }
         return this.httpservice.post(url, formData, headers);
     }
+
+    public attachments(issue: string): Promise<IObject | boolean> {
+        return this.field(issue, 'attachment');
+    }
+
+    public removeAttachment(issue: string, attachmentId: string): Promise<IObject> {
+        const url = new URL(`${this.config.url}/rest/api/3/attachment/${attachmentId}`);
+        return this.httpservice.delete(url);
+    }
 }
